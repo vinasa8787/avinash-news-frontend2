@@ -20,7 +20,7 @@
     <script>
         async function loadFeeds() {
             try {
-                const response = await fetch('https://avinash-news-project.onrender.com');
+                const response = await fetch('https://avinash-news-project.onrender.com/news-feed');
                 const data = await response.json();
 
                 const feedsContainer = document.getElementById('feeds');
