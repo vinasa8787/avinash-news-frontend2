@@ -1,0 +1,65 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Avinash Kabilan Enriched News Feed</title>
+    <style>
+        body { font-family: Arial, sans-serif; margin: 20px; }
+        .feed-section { margin-bottom: 40px; }
+        .feed-item { border: 1px solid #ccc; margin: 10px; padding: 10px; max-width: 400px; }
+        .feed-item img { width: 100%; height: auto; }
+        .feed-item h3 { margin: 10px 0 5px; font-size: 16px; }
+        .feed-item p { font-size: 14px; color: #555; }
+    </style>
+</head>
+<body>
+    <h1>Avinash Kabilan Enriched News Feed</h1>
+    <div id="feeds"></div>
+
+    <script>
+        async function loadFeeds() {
+            try {
+                const response = await fetch('https://avinash-news-project.onrender.com');
+                const data = await response.json();
+
+                const feedsContainer = document.getElementById('feeds');
+                data.forEach(feed => {
+                    const section = document.createElement('div');
+                    section.className = 'feed-section';
+
+                    const header = document.createElement('h2');
+                    header.textContent = `Feed: ${feed.feed}`;
+                    section.appendChild(header);
+
+                    feed.articles.forEach(article => {
+                        const item = document.createElement('div');
+                        item.className = 'feed-item';
+
+                        const img = document.createElement('img');
+                        img.src = article.image;
+                        item.appendChild(img);
+
+                        const title = document.createElement('h3');
+                        title.innerHTML = `<a href="${article.link}" target="_blank">${article.title}</a>`;
+                        item.appendChild(title);
+
+                        const summary = document.createElement('p');
+                        summary.textContent = article.summary.replace(/(<([^>]+)>)/gi, '').slice(0, 150) + '...';
+                        item.appendChild(summary);
+
+                        section.appendChild(item);
+                    });
+
+                    feedsContainer.appendChild(section);
+                });
+
+            } catch (error) {
+                console.error('Error loading feeds:', error);
+            }
+        }
+
+        loadFeeds();
+    </script>
+</body>
+</html>
